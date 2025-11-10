@@ -243,7 +243,7 @@ template:
         unit_of_measurement: ""
         state_class: "measurement"
         icon: >-
-          {% set cop = states('sensor.warmepumpe_cop') | float(0) %}
+          {% set cop = states('sensor.hp_cop') | float(0) %}
           {% if cop == 0 %}
             mdi:power-off
           {% elif cop < 2.5 %}
@@ -262,7 +262,7 @@ template:
           {% set power = states('sensor.hp_power') | float(0) / 1000 %}
           {% set leistung = states('sensor.hp_heat_output') | float(0) %}
           {% if power > 0.7 %}
-            {{ max((leistung / power_kw) | round(2), 0) }}
+            {{ max((leistung / power) | round(2), 0) }}
           {% else %}
             0
           {% endif %}
