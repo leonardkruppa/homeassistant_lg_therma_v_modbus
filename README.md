@@ -36,7 +36,7 @@ The YAML package is modular, optimized for Home Assistant 2025+, and has been ex
 
 | Component | Description |
 |------------|-------------|
-| **Hardware** | LG Therma V R32 Monoblock with Modbus TCP enabled |
+| **Hardware** | LG Therma V R32 Monoblock with Modbus TCP enabled <br> RS485 to Ethernet converter |
 | **Home Assistant** | Version ≥ 2024.10 (tested with 2025.10) |
 | **Integration** | [Modbus Integration](https://www.home-assistant.io/integrations/modbus/) |
 | **Network** | Heat pump accessible via IP and port (default: 502) |
