@@ -213,6 +213,60 @@ modbus:
         scan_interval: 10
 
 template:
+  # Sensor for calculating the COP
+    # Please use your heat pump's own power sensor to calculate the COP.
+    # In my example, it is the value of a Shelly 3EM. If your Heatpump provide a power sensor, feel free to use it.
+
+  - sensor:
+      - name: "Heat Output"
+        unique_id: hp_heat_output
+        unit_of_measurement: "kW"
+        state_class: "measurement"
+        device_class: "power"
+        availability: >-
+          {{ states('sensor.hp_flow_rate') not in ['unknown', 'unavailable'] and
+            states('sensor.hp_inlet_temp') not in ['unknown', 'unavailable'] and
+            states('sensor.hp_outlet_temp') not in ['unknown', 'unavailable'] }}
+        state: >-
+          {% set flow_rate = states('sensor.hp_flow_rate') | float(0) %}
+          {% set temp_inlet = states('sensor.hp_inlet_temp') | float(0) %}
+          {% set temp_outlet = states('sensor.hp_outlet_temp') | float(0) %}
+          {% set delta_t = temp_outlet - temp_inlet %}
+          {% if flow_rate < 6 %}
+            {% set flow_rate = 0 %}
+          {% endif %}
+          {% set power = flow_rate * 69.77 * delta_t / 1000 %}
+          {{ [power, 0] | max | round(2) }}
+
+      - name: "Heatpump COP"
+        unique_id: hp_cop
+        unit_of_measurement: ""
+        state_class: "measurement"
+        icon: >-
+          {% set cop = states('sensor.warmepumpe_cop') | float(0) %}
+          {% if cop == 0 %}
+            mdi:power-off
+          {% elif cop < 2.5 %}
+            mdi:speedometer-slow
+          {% elif cop < 3.5 %}
+            mdi:speedometer-medium
+          {% elif cop < 4.5 %}
+            mdi:speedometer
+          {% else %}
+            mdi:rocket-launch
+          {% endif %}
+        availability: >-
+          {{ states('sensor.hp_power') not in ['unknown', 'unavailable'] and
+            states('sensor.hp_heat_output') not in ['unknown', 'unavailable'] }}
+        state: >-
+          {% set power = states('sensor.hp_power') | float(0) / 1000 %}
+          {% set leistung = states('sensor.hp_heat_output') | float(0) %}
+          {% if power > 0.7 %}
+            {{ max((leistung / power_kw) | round(2), 0) }}
+          {% else %}
+            0
+          {% endif %}
+
   - binary_sensor:
       - name: "HP Energy State - Nicht verwenden"
         unique_id: "hp_energy_state_nicht_verwenden"
