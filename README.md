@@ -1,6 +1,9 @@
 # LG Therma V – Home Assistant Modbus Integration
 
-![LG Therma V Integration Screenshot](https://github.com/USER/REPO/assets/your-image-id-here.png)
+<img width="368" height="262" alt="image" src="https://github.com/user-attachments/assets/6fc91212-2207-4a8e-bbac-49b10d4f1c99" />
+<img width="521" height="370" alt="image" src="https://github.com/user-attachments/assets/809c36a9-28df-4fc1-b57c-250cadd5643e" />
+
+---
 
 A fully integrated **Home Assistant Modbus configuration** for the  
 **LG Therma V R32 Monoblock heat pump**.  
