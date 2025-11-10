@@ -1,4 +1,4 @@
-# 🌀 LG Therma V – Home Assistant Modbus Integration
+# LG Therma V – Home Assistant Modbus Integration
 
 ![LG Therma V Integration Screenshot](https://github.com/USER/REPO/assets/your-image-id-here.png)
 
